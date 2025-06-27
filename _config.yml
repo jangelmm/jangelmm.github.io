@@ -1,4 +1,5 @@
 title: "Portafolio de JAngel"
 description: "Proyectos"
-theme: jekyll-rtd-theme
+theme: theme: mere-blog-theme
 markdown: kramdown
+
