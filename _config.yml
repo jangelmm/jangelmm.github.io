@@ -1,5 +1,5 @@
 title: "Portafolio de JAngel"
 description: "Proyectos"
-theme: mere-blog-theme
+remote_theme: chrisrhymes/mere-blog-theme
 markdown: kramdown
 
