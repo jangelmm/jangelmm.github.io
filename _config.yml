@@ -1,4 +1,5 @@
 title: "Portafolio de JAngel"
 description: "Proyectos"
-remote_theme: chrisrhymes/bulma-clean-theme
+remote_theme: chrisbobbe/jekyll-theme-prologue
 markdown: kramdown
+# Otras configuraciones que puedas tener
