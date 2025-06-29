@@ -1,6 +1,10 @@
 # ¡Hola! Soy JAngel, Futuro Ingeniero en Sistemas
 
-<img src="/assets/images/Foto_Perfil2_Redimensionada.jpg" alt="Foto de perfil" width="200" height="267" />
+<div style="text-align: center;">
+  <img src="/assets/images/Foto_Perfil2_Redimensionada.jpg" alt="Foto de perfil"
+       width="200" height="267"
+       style="border-radius: 15px; border: 3px solid #007BFF; box-shadow: 2px 2px 8px rgba(0,0,0,0.2);" />
+</div>
 
 
 Soy un apasionado **estudiante de Ingeniería en Sistemas Computacionales** en el **Tecnológico Nacional de México, Campus Oaxaca**, actualmente en el 6to semestre. Mi curiosidad por la tecnología me impulsa a explorar y construir soluciones innovadoras, desde el desarrollo de software hasta la implementación de sistemas con hardware y microcontroladores.
