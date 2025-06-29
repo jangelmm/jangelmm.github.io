@@ -1,5 +1,5 @@
 title: "Portafolio de JAngel"
 description: "Proyectos"
-remote_theme: chrisbobbe/jekyll-theme-prologue
+remote_theme: pages-themes/architect@v0.2.0
 markdown: kramdown
 # Otras configuraciones que puedas tener
