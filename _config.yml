@@ -1,45 +1,5 @@
-# Basic Site Settings
-# --------------------
-title: "JAngel - Ingeniero en Sistemas | Desarrollador de Software"
-email: "tu.correo@ejemplo.com" # Importante para que los reclutadores te contacten
-description: > # Esta es una descripción más completa para SEO
-  Portafolio personal de JAngel, estudiante de Ingeniería en Sistemas
-  con experiencia en Java, Python, C++, bases de datos (MySQL, PostgreSQL),
-  Docker, Linux y microcontroladores (Arduino, ESP32).
-  Descubre mis proyectos de desarrollo de software, hardware y sistemas.
-baseurl: "" # Deja vacío para proyectos de usuario/organización o si tu sitio está en la raíz
-url: "https://jangelmm.github.io" # Asegúrate de que esta URL sea la correcta de tu GitHub Pages
-
-# Theme Settings
-# --------------
-remote_theme: pages-themes/architect@v0.2.0 # Volvemos a Minimal o tu tema preferido
-# Si cambiaste a Architect, considera si se ajusta a tu estilo.
-# Minimal es más limpio para un portafolio enfocado en contenido.
-
-# Build Settings
-# --------------
+title: "Sitio Web de JAngel"
+description: "Acerca de mi..."
+remote_theme: pages-themes/architect@v0.2.0
 markdown: kramdown
-permalink: /:title/ # URLs más limpias para tus páginas/posts
-# exclude: # Archivos y carpetas a ignorar por Jekyll durante la construcción
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules # Si usas herramientas de frontend como NPM
-#   - README.md
-#   - CNAME # Si tienes un dominio personalizado, no lo excluyas
-#   - LICENSE.md
-
-# Optional Features
-# -----------------
-social: # Para enlaces a tus perfiles sociales, útil si el tema los usa
-   linkedin: "https://www.linkedin.com/in/jesus-angel-martinez-mendoza-83258035a/"
-   github: "https://github.com/jangelmm"
-   twitter: "https://twitter.com/tu_usuario" # Si tienes
-
-# Google Analytics (opcional, para seguimiento de visitas)
-# google_analytics: UA-XXXXXXX-Y # Reemplaza con tu ID de Google Analytics
-
-#title: "Portafolio de JAngel"
-#description: "Proyectos"
-#remote_theme: pages-themes/architect@v0.2.0
-#markdown: kramdown
 # Otras configuraciones que puedas tener
