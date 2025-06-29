@@ -12,7 +12,7 @@ url: "https://jangelmm.github.io" # Asegúrate de que esta URL sea la correcta d
 
 # Theme Settings
 # --------------
-remote_theme: pages-themes/minimal@v0.2.0 # Volvemos a Minimal o tu tema preferido
+remote_theme: pages-themes/architect@v0.2.0 # Volvemos a Minimal o tu tema preferido
 # Si cambiaste a Architect, considera si se ajusta a tu estilo.
 # Minimal es más limpio para un portafolio enfocado en contenido.
 
