@@ -2,7 +2,7 @@
 
 <div style="text-align: center;">
   <img src="/assets/images/Foto_Perfil3_Redimensionada.png" alt="Foto de perfil"
-       width="200" height="267"
+       width="250" height="250"
        style="border-radius: 15px; border: 3px solid #007BFF; box-shadow: 2px 2px 8px rgba(0,0,0,0.2);" />
 </div>
 
