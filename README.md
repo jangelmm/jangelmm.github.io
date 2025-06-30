@@ -1,7 +1,7 @@
 # ¡Hola! Soy JAngel, Futuro Ingeniero en Sistemas
 
 <div style="text-align: center;">
-  <img src="/assets/images/Foto_Perfil2_Redimensionada.jpg" alt="Foto de perfil"
+  <img src="/assets/images/Foto_Perfil3_Redimensionada.png" alt="Foto de perfil"
        width="200" height="267"
        style="border-radius: 15px; border: 3px solid #007BFF; box-shadow: 2px 2px 8px rgba(0,0,0,0.2);" />
 </div>
