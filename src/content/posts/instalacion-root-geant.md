@@ -3,7 +3,7 @@ title: Instalacion Root y Geant4 en Entorno Conda
 published: 2025-10-04
 tags: [Markdown, Blogging, Demo]
 category: Root
-draft: true
+draft: false
 ---
 
 # Instalacion Root y Geant4 en Entorno Conda
