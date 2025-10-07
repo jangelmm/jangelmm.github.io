@@ -1,0 +1,187 @@
+---
+title: 2.4 Estructura y Funcionamiento de un Proyecto Ruby on Rails
+published: 2025-10-06
+tags: [Markdown, Blogging, RoR, Ruby]
+category: RoR
+draft: false
+---
+
+7/Octubre/2025
+
+En esta clase se analizó la **estructura de un proyecto en Ruby on Rails**, su organización interna, el manejo de bases de datos mediante el **ORM (ActiveRecord)**, y la ejecución de comandos desde la terminal para interactuar con la aplicación.
+
+---
+
+## 1. Estructura general del proyecto
+
+La estructura de un proyecto Rails organiza el código siguiendo el patrón **MVC (Modelo–Vista–Controlador)**, lo que separa la lógica, la presentación y el manejo de datos.
+
+```
+.
+├── app/
+│   ├── controllers/        → Controladores: lógica de negocio y flujo.
+│   ├── models/             → Modelos: interacción con la base de datos (ORM).
+│   ├── views/              → Vistas: plantillas HTML/ERB que muestran datos.
+│   ├── jobs/               → Tareas automáticas o recurrentes.
+│   ├── mailers/            → Envío de correos electrónicos.
+│   └── assets/             → Archivos estáticos (CSS, JS, imágenes).
+│
+├── bin/                    → Scripts ejecutables del framework.
+├── config/                 → Archivos de configuración del entorno.
+│   ├── database.yml        → Configuración de bases de datos.
+│   ├── environments/       → Configuración por ambiente (dev/test/prod).
+│   └── initializers/       → Código que se carga al iniciar la aplicación.
+│
+├── db/                     → Migraciones, esquemas y semillas de datos.
+├── public/                 → Archivos públicos (error pages, favicon, etc).
+├── test/                   → Pruebas unitarias y de integración.
+├── log/                    → Registros (logs) de cada ambiente.
+└── storage/                → Bases de datos SQLite o archivos locales.
+```
+
+Rails aplica el principio **DRY (Don’t Repeat Yourself)**, evitando la duplicación de código mediante configuraciones automáticas y convenciones claras.
+
+---
+
+## 2. Configuración de bases de datos
+
+El archivo `config/database.yml` define las conexiones y bases de datos para cada ambiente:
+
+```yaml
+development:
+  adapter: sqlite3
+  database: storage/development.sqlite3
+
+test:
+  adapter: sqlite3
+  database: storage/test.sqlite3
+
+production:
+  adapter: sqlite3
+  database: storage/production.sqlite3
+```
+
+Rails permite trabajar con **tres entornos aislados**:
+
+| Entorno         | Uso principal                                                     |
+| --------------- | ----------------------------------------------------------------- |
+| **Development** | Donde el programador crea y prueba nuevas funciones.              |
+| **Test**        | Donde se ejecutan las pruebas automáticas antes de subir cambios. |
+| **Production**  | Donde se ejecuta la aplicación final en un servidor real.         |
+
+---
+
+## 3. Servidor y despliegue
+
+Rails utiliza **Puma** como servidor web por defecto, un servidor de alto rendimiento escrito en Ruby.
+
+Para iniciar el servidor:
+
+```bash
+bin/rails server -b 0.0.0.0
+```
+
+Esto levanta la aplicación en el puerto **3000**, accesible desde cualquier IP local.
+
+---
+
+## 4. ORM (ActiveRecord) y operaciones desde la terminal
+
+Rails integra un ORM llamado **ActiveRecord**, que permite manipular bases de datos usando código Ruby en lugar de SQL directo.
+
+### 4.1. Ingreso a la consola interactiva
+
+```bash
+bin/rails console
+```
+
+Permite ejecutar instrucciones del ORM directamente sobre los modelos.
+
+### 4.2. Creación de un modelo
+
+```bash
+bin/rails generate model Product name:string price:decimal
+```
+
+Esto genera:
+
+* Un archivo de modelo (`app/models/product.rb`)
+* Una migración (`db/migrate/...create_products.rb`)
+
+### 4.3. Aplicar migraciones (crear la tabla en la base de datos)
+
+```bash
+bin/rails db:migrate
+```
+
+Crea en `storage/development.sqlite3` la tabla `products`.
+
+---
+
+## 5. Operaciones ORM (ActiveRecord)
+
+Una vez dentro de la consola (`bin/rails console`), pueden realizarse las operaciones CRUD (Create, Read, Update, Delete):
+
+| Operación               | Ejemplo en consola                                                        | Descripción                              |
+| ----------------------- | ------------------------------------------------------------------------- | ---------------------------------------- |
+| **Create (insertar)**   | `product = Product.new(name: "T-Shirt", price: 199.99)`<br>`product.save` | Crea una nueva fila en la base de datos. |
+| **Read (consultar)**    | `Product.all`<br>`Product.find(1)`<br>`Product.where(price: 199.99)`      | Recupera uno o varios registros.         |
+| **Update (actualizar)** | `product = Product.find(1)`<br>`product.update(price: 249.99)`            | Modifica atributos existentes.           |
+| **Delete (eliminar)**   | `product = Product.find(3)`<br>`product.destroy`                          | Elimina el registro indicado.            |
+
+Rails también mantiene campos automáticos:
+
+* `created_at`: fecha de creación del registro.
+* `updated_at`: fecha de última modificación.
+
+Los cambios quedan registrados en `log/development.log`.
+
+---
+
+## 6. Ambientes y flujo de trabajo
+
+1. **Desarrollo**: se crean nuevas funciones.
+2. **Pruebas**: se ejecutan tests automáticos con una base aislada.
+3. **Producción**: el código probado se despliega con herramientas como *Capistrano* o *Docker*.
+
+Cada ambiente usa su propia base de datos para evitar interferencias y pérdida de datos.
+
+---
+
+## 7. Buenas prácticas
+
+* Mantener las credenciales seguras con `credentials.yml.enc` (encriptado).
+* No modificar directamente las tablas en producción.
+* Usar migraciones y commits para controlar cambios.
+* Revisar los logs para detectar errores y confirmar transacciones.
+
+---
+
+## Glosario
+
+| Término                             | Definición                                                              |
+| ----------------------------------- | ----------------------------------------------------------------------- |
+| **Rails**                           | Framework MVC de Ruby para desarrollo web.                              |
+| **Puma**                            | Servidor HTTP incluido con Rails.                                       |
+| **ORM (Object Relational Mapping)** | Técnica que permite manipular bases de datos con objetos en vez de SQL. |
+| **ActiveRecord**                    | ORM de Ruby on Rails.                                                   |
+| **Migración**                       | Archivo que define cambios en el esquema de la base de datos.           |
+| **DRY**                             | Principio de diseño: “Don’t Repeat Yourself”.                           |
+| **Capistrano**                      | Herramienta de despliegue automatizado de aplicaciones Ruby.            |
+| **SQLite**                          | Motor de base de datos ligero usado en desarrollo y pruebas.            |
+| **Schema**                          | Archivo que define la estructura actual de la base de datos.            |
+
+---
+
+**Resumen:**
+Ruby on Rails organiza los proyectos siguiendo el patrón MVC, permitiendo crear, modificar y eliminar datos usando ActiveRecord. Su estructura clara, el uso de entornos separados y la consola integrada hacen que el desarrollo sea más ágil y controlado, manteniendo la base de datos sincronizada con el código y reduciendo errores humanos.
+
+
+```markdown
+---
+title: 2.4 Estructura y Funcionamiento de un Proyecto Ruby on Rails
+published: 2025-10-06
+tags: [Markdown, Blogging, RoR, Ruby]
+category: RoR
+draft: false
+---
