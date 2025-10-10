@@ -197,11 +197,3 @@ conda env create -f geant-root-env.yml
 
 
 
-```markdown
----
-title: Instalacion Root y Geant4 en Entorno Conda
-published: 2025-10-04T04:40:26.381Z
-tags: [Markdown, Blogging, Demo]
-category: Root
-draft: false
----
