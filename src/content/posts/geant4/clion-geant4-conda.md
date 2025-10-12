@@ -112,24 +112,14 @@ Si la configuración fue correcta, la simulación se ejecutará mostrando result
 CLion permite redirigir o guardar la salida de las simulaciones.
 Para ello, haga clic en el ícono de impresión ubicado en el panel inferior:
 
-![](Pasted%20image%2020251010112815.png.png)
+![](Pasted%20image%2020251010112951.png)
 
 Seleccione **“Save Output”** para exportar los resultados de la simulación a un archivo de texto.
 Esto resulta útil para documentar ejecuciones o incluir datos en reportes técnicos.
 
 ---
 
-## Conclusión
+## Notas
+Aunque CLion permite ejecutar y compilar desde el propio IDE, es más recomendable usar CLion para escribir código y editarlo, y usar la terminal nativa del SO, para construir con `make`, `cmake` y ejecutar con `.programa`.
 
-La integración de **Geant4** y **ROOT** en **CLion** mediante un entorno **Conda** representa una alternativa moderna y reproducible para el trabajo académico y de investigación.
-A diferencia de las instalaciones tradicionales del sistema, esta metodología ofrece:
-
-* **Aislamiento de entornos** mediante Conda.
-* **Gestión simplificada de dependencias y versiones.**
-* **Compatibilidad multiplataforma** con Linux, macOS y Windows.
-* **Herramientas de depuración y edición avanzadas** en un entorno integrado.
-
-Esta configuración convierte a CLion en un entorno de desarrollo completo para proyectos que combinan simulación física, análisis de datos y desarrollo científico con Geant4 y ROOT.
-
----
-
+![alt text](Pasted%20image%2020251012171536-2.png)
