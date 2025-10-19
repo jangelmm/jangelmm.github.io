@@ -28,7 +28,7 @@ El propósito es disponer de una configuración moderna que permita autocompleta
 1. Inicie CLion.  
 2. Seleccione **New Project** para crear un nuevo proyecto o **Open** para abrir uno existente (por ejemplo, un ejemplo oficial de Geant4).  
 
-![](Pasted%20image%2020251010113644.png)
+![](./Adjuntos/Pasted%20image%2020251010113644.png)
 
 Esto cargará la estructura base del proyecto y preparará los archivos para su configuración mediante CMake.
 
@@ -38,7 +38,7 @@ Esto cargará la estructura base del proyecto y preparará los archivos para su 
 
 1. En la ventana de selección, elija **“Import Project from CMake”**.  
 
-![](Pasted%20image%2020251010112117.png)
+![](./Adjuntos/Pasted%20image%2020251010112117.png)
 
 2. En la ventana emergente de configuración, ubique la sección **CMake options** y agregue las siguientes líneas, modificando la ruta con su nombre de usuario:
 
@@ -87,7 +87,7 @@ Una vez guardadas, las variables quedarán disponibles para todas las ejecucione
 
 Haga clic en el ícono del martillo en la barra superior para iniciar la compilación:
 
-![](Pasted%20image%2020251010112651.png)
+![](./Adjuntos/Pasted%20image%2020251010112651.png)
 
 CLion ejecutará CMake, enlazará las bibliotecas de Geant4 y ROOT desde el entorno Conda, y generará los binarios necesarios.
 Durante la primera compilación puede tardar algunos minutos mientras el IDE indexa y enlaza las dependencias.
@@ -101,7 +101,7 @@ Ejecute el proyecto con cualquiera de las siguientes opciones:
 * **F9:** Ejecutar directamente (`Run`)
 * **F10:** Ejecutar con depuración (`Debug`)
 
-![](Pasted%20image%2020251010112815.png)
+![](./Adjuntos/Pasted%20image%2020251010112815.png)
 
 Si la configuración fue correcta, la simulación se ejecutará mostrando resultados en la consola o en una ventana gráfica, dependiendo del ejemplo utilizado.
 
@@ -112,7 +112,7 @@ Si la configuración fue correcta, la simulación se ejecutará mostrando result
 CLion permite redirigir o guardar la salida de las simulaciones.
 Para ello, haga clic en el ícono de impresión ubicado en el panel inferior:
 
-![](Pasted%20image%2020251010112951.png)
+![](./Adjuntos/Pasted%20image%2020251010112951.png)
 
 Seleccione **“Save Output”** para exportar los resultados de la simulación a un archivo de texto.
 Esto resulta útil para documentar ejecuciones o incluir datos en reportes técnicos.
@@ -122,4 +122,4 @@ Esto resulta útil para documentar ejecuciones o incluir datos en reportes técn
 ## Notas
 Aunque CLion permite ejecutar y compilar desde el propio IDE, es más recomendable usar CLion para escribir código y editarlo, y usar la terminal nativa del SO, para construir con `make`, `cmake` y ejecutar con `.programa`.
 
-![alt text](Pasted%20image%2020251012171536-2.png)
+![alt text](./Adjuntos/Pasted%20image%2020251012171536-2.png)
