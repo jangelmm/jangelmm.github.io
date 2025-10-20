@@ -5,6 +5,7 @@ import { getCollection } from "astro:content";
 import { url } from "../../utils/url-utils";
 import WidgetLayout from "./WidgetLayout.astro";
 
+// --- El código de la parte superior (construcción del árbol) no cambia ---
 const allPosts = await getCollection(
 	"posts",
 	({ data }) => data.draft !== true,
@@ -61,19 +62,32 @@ const treeHtml = renderTree(directoryTree);
 </WidgetLayout>
 
 <script>
-    const folderToggles = document.querySelectorAll('#directory-tree .folder-toggle');
-    folderToggles.forEach(toggle => {
-        toggle.addEventListener('click', () => {
-            const subList = toggle.nextElementSibling;
-            if (subList && subList.tagName === 'UL') {
-                subList.classList.toggle('hidden');
-                
-                if (toggle.parentElement) {
-                    toggle.parentElement.classList.toggle('expanded');
+    // 1. Envolvemos toda nuestra lógica en una función reutilizable.
+    function initializeTreeInteraction() {
+        const folderToggles = document.querySelectorAll('#directory-tree .folder-toggle');
+        
+        folderToggles.forEach(toggle => {
+            // Prevenimos añadir el mismo evento múltiples veces
+            if (toggle.dataset.initialized) return;
+            toggle.dataset.initialized = 'true';
+
+            toggle.addEventListener('click', () => {
+                const subList = toggle.nextElementSibling;
+                if (subList && subList.tagName === 'UL') {
+                    subList.classList.toggle('hidden');
+                    if (toggle.parentElement) {
+                        toggle.parentElement.classList.toggle('expanded');
+                    }
                 }
-            }
+            });
         });
-    });
+    }
+
+    // 2. Ejecutamos la función en la carga inicial de la página.
+    document.addEventListener('astro:page-load', initializeTreeInteraction);
+    
+    // 3. Le pedimos a Astro que también ejecute nuestra función DESPUÉS de cada transición de página.
+    document.addEventListener('astro:after-swap', initializeTreeInteraction);
 </script>
 
 <style is:global>
