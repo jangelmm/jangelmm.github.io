@@ -91,21 +91,21 @@ const treeHtml = renderTree(directoryTree);
         display: flex;
         align-items: center;
         user-select: none;
-        font-weight: 500; /* Hacemos el texto un poco más grueso */
-        /* 1. Usamos el color de acento del tema */
-        color: var(--color-accent);
-        transition: filter 0.2s;
+        font-weight: 500;
+        /* USAR VARIABLES EXISTENTES: */
+        color: var(--btn-content);
+        transition: color 0.2s, filter 0.2s;
     }
     #directory-tree .folder-toggle:hover {
-        /* Un pequeño brillo al pasar el cursor */
+        color: var(--primary);
         filter: brightness(1.2);
     }
-    /* 2. Icono de carpeta CERRADA */
+    /* Icono de carpeta CERRADA */
     #directory-tree .folder > .folder-toggle::before {
         content: '📁';
         margin-right: 0.5rem;
     }
-    /* 3. Icono de carpeta ABIERTA (cuando está expandida) */
+    /* Icono de carpeta ABIERTA (cuando está expandida) */
     #directory-tree .folder.expanded > .folder-toggle::before {
         content: '📂';
     }
@@ -115,13 +115,13 @@ const treeHtml = renderTree(directoryTree);
         display: flex;
         align-items: center;
         text-decoration: none;
-        /* 4. Este color ya respeta el modo Light/Dark */
-        color: var(--color-text-secondary);
+        /* USAR VARIABLES EXISTENTES: */
+        color: var(--btn-content);
         font-size: 0.9em;
         transition: color 0.2s;
     }
     #directory-tree .file a:hover {
-        color: var(--color-accent);
+        color: var(--primary);
     }
     #directory-tree .file a::before {
         content: '📄';
