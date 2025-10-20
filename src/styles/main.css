@@ -110,6 +110,9 @@
     .btn-regular-dark.success {
         @apply bg-[oklch(0.75_0.14_var(--hue))] dark:bg-[oklch(0.75_0.14_var(--hue))]
     }
+    .link {
+        @apply underline decoration-dotted underline-offset-4 transition-colors hover:text-accent;
+    }
 }
 
 .custom-md img, #post-cover img {
