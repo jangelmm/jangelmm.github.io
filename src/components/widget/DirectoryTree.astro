@@ -5,32 +5,23 @@ import { getCollection } from "astro:content";
 import { url } from "../../utils/url-utils";
 import WidgetLayout from "./WidgetLayout.astro";
 
-interface PostLeaf {
-	slug: string;
-	title: string;
-}
-
-type DirectoryTree = {
-	[key: string]: DirectoryTree | PostLeaf;
-};
-
 const allPosts = await getCollection(
 	"posts",
 	({ data }) => data.draft !== true,
 );
 
-const directoryTree: DirectoryTree = {};
+const directoryTree: Record<string, any> = {};
 
 allPosts.forEach((post) => {
 	const pathParts = post.id.split("/");
-	let currentLevel: DirectoryTree = directoryTree;
+	let currentLevel = directoryTree;
 
 	for (let i = 0; i < pathParts.length - 1; i++) {
 		const part = pathParts[i];
 		if (!currentLevel[part]) {
 			currentLevel[part] = {};
 		}
-		currentLevel = currentLevel[part] as DirectoryTree;
+		currentLevel = currentLevel[part];
 	}
 
 	const fileName = pathParts[pathParts.length - 1];
@@ -40,15 +31,14 @@ allPosts.forEach((post) => {
 	};
 });
 
-function renderTree(tree: DirectoryTree) {
+function renderTree(tree: Record<string, any>) {
 	const keys = Object.keys(tree);
 	if (keys.length === 0) return "";
 
 	let html = '<ul class="sub-list hidden">';
 	for (const key of keys) {
 		const node = tree[key];
-		// Comprobamos si es un 'PostLeaf' verificando la propiedad 'slug'
-		if ("slug" in node) {
+		if (node.slug) {
 			html += `<li class="file"><a href="${url(`/posts/${node.slug}/`)}">${node.title}</a></li>`;
 		} else {
 			const hasChildren = Object.keys(node).length > 0;
@@ -77,6 +67,7 @@ const treeHtml = renderTree(directoryTree);
             const subList = toggle.nextElementSibling;
             if (subList && subList.tagName === 'UL') {
                 subList.classList.toggle('hidden');
+                
                 if (toggle.parentElement) {
                     toggle.parentElement.classList.toggle('expanded');
                 }
@@ -86,5 +77,51 @@ const treeHtml = renderTree(directoryTree);
 </script>
 
 <style is:global>
-    /* ... Tus estilos que ya funcionan ... */
+    #directory-tree ul {
+        list-style: none;
+        padding-left: 1rem;
+        margin-top: 0.25rem;
+    }
+    #directory-tree .sub-list.hidden {
+        display: none;
+    }
+    #directory-tree li {
+        margin-bottom: 0.25rem;
+    }
+    #directory-tree .folder-toggle {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        user-select: none;
+        font-weight: 500;
+        color: var(--btn-content);
+        transition: color 0.2s, filter 0.2s;
+    }
+    #directory-tree .folder-toggle:hover {
+        color: var(--primary);
+        filter: brightness(1.2);
+    }
+    #directory-tree .folder > .folder-toggle::before {
+        content: '📁';
+        margin-right: 0.5rem;
+    }
+    #directory-tree .folder.expanded > .folder-toggle::before {
+        content: '📂';
+    }
+    #directory-tree .file a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: var(--btn-content);
+        font-size: 0.9em;
+        transition: color 0.2s;
+    }
+    #directory-tree .file a:hover {
+        color: var(--primary);
+    }
+    #directory-tree .file a::before {
+        content: '📄';
+        margin-right: 0.5rem;
+        opacity: 0.8;
+    }
 </style>
