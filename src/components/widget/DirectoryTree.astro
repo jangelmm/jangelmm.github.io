@@ -1,55 +1,57 @@
 ---
 // src/components/widget/DirectoryTree.astro
 
-import { getCollection } from 'astro:content';
-import { url } from '../../utils/url-utils';
-import WidgetLayout from './WidgetLayout.astro';
+import { getCollection } from "astro:content";
+import { url } from "../../utils/url-utils";
+import WidgetLayout from "./WidgetLayout.astro";
 
-const allPosts = await getCollection('posts', ({ data }) => data.draft !== true);
+const allPosts = await getCollection(
+	"posts",
+	({ data }) => data.draft !== true,
+);
 
 const directoryTree = {};
 allPosts.forEach((post) => {
-    const pathParts = post.id.split('/');
-    let currentLevel = directoryTree;
+	const pathParts = post.id.split("/");
+	let currentLevel = directoryTree;
 
-    // Recorremos las carpetas
-    for (let i = 0; i < pathParts.length - 1; i++) {
-        const part = pathParts[i];
-        if (!currentLevel[part]) {
-            currentLevel[part] = {};
-        }
-        currentLevel = currentLevel[part];
-    }
+	// Recorremos las carpetas
+	for (let i = 0; i < pathParts.length - 1; i++) {
+		const part = pathParts[i];
+		if (!currentLevel[part]) {
+			currentLevel[part] = {};
+		}
+		currentLevel = currentLevel[part];
+	}
 
-    // Añadimos el archivo (la "hoja") al final de la rama
-    const fileName = pathParts[pathParts.length - 1];
-    currentLevel[fileName] = {
-        slug: post.slug,
-        title: post.data.title,
-    };
+	// Añadimos el archivo (la "hoja") al final de la rama
+	const fileName = pathParts[pathParts.length - 1];
+	currentLevel[fileName] = {
+		slug: post.slug,
+		title: post.data.title,
+	};
 });
 
 function renderTree(tree) {
-    const keys = Object.keys(tree);
-    if (keys.length === 0) return '';
+	const keys = Object.keys(tree);
+	if (keys.length === 0) return "";
 
-    let html = '<ul class="sub-list hidden">';
-    for (const key of keys) {
-        const node = tree[key];
-        if (node.slug) {
-            html += `<li class="file"><a href="${url(`/posts/${node.slug}/`)}">${node.title}</a></li>`;
-        } 
-        else {
-            const hasChildren = Object.keys(node).length > 0;
-            html += `<li class="folder"><span class="folder-toggle">${key}</span>`;
-            if (hasChildren) {
-                html += renderTree(node);
-            }
-            html += '</li>';
-        }
-    }
-    html += '</ul>';
-    return html;
+	let html = '<ul class="sub-list hidden">';
+	for (const key of keys) {
+		const node = tree[key];
+		if (node.slug) {
+			html += `<li class="file"><a href="${url(`/posts/${node.slug}/`)}">${node.title}</a></li>`;
+		} else {
+			const hasChildren = Object.keys(node).length > 0;
+			html += `<li class="folder"><span class="folder-toggle">${key}</span>`;
+			if (hasChildren) {
+				html += renderTree(node);
+			}
+			html += "</li>";
+		}
+	}
+	html += "</ul>";
+	return html;
 }
 
 const treeHtml = renderTree(directoryTree);
