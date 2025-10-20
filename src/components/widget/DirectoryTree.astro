@@ -61,8 +61,6 @@ const treeHtml = renderTree(directoryTree);
     <Fragment set:html={treeHtml.replace('class="sub-list hidden"', 'class="sub-list"')}/>
 </WidgetLayout>
 
-// Reemplaza tu sección <script> con esta
-
 <script>
     function initializeTreeInteraction() {
         const folderToggles = document.querySelectorAll('#directory-tree .folder-toggle');
