@@ -9,7 +9,7 @@ const allPosts = await getCollection('posts', ({ data }) => data.draft !== true)
 
 const directoryTree = {};
 allPosts.forEach((post) => {
-    const pathParts = post.slug.split('/');
+    const pathParts = post.id.split('/');
     let currentLevel = directoryTree;
 
     // Recorremos las carpetas
