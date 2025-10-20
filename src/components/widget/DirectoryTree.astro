@@ -1,11 +1,9 @@
 ---
 // src/components/widget/DirectoryTree.astro
-
 import { getCollection } from "astro:content";
 import { url } from "../../utils/url-utils";
 import WidgetLayout from "./WidgetLayout.astro";
 
-// --- El código de la parte superior (construcción del árbol) no cambia ---
 const allPosts = await getCollection(
 	"posts",
 	({ data }) => data.draft !== true,
@@ -14,7 +12,8 @@ const allPosts = await getCollection(
 const directoryTree: Record<string, any> = {};
 
 allPosts.forEach((post) => {
-	const pathParts = post.id.split("/");
+	// CORREGIDO: usar post.slug en lugar de post.id
+	const pathParts = post.slug.split("/");
 	let currentLevel = directoryTree;
 
 	for (let i = 0; i < pathParts.length - 1; i++) {
@@ -64,30 +63,28 @@ const treeHtml = renderTree(directoryTree);
 <script>
     function initializeTreeInteraction() {
         const folderToggles = document.querySelectorAll('#directory-tree .folder-toggle');
-        
         folderToggles.forEach(toggle => {
-            
-            const element = toggle as HTMLElement; 
-
-            // Usamos 'element' en lugar de 'toggle' para las comprobaciones
-            if (element.dataset.initialized) return;
-            element.dataset.initialized = 'true';
-
-            element.addEventListener('click', () => {
-                const subList = element.nextElementSibling;
-                if (subList && subList.tagName === 'UL') {
-                    subList.classList.toggle('hidden');
-                    
-                    if (element.parentElement) {
-                        element.parentElement.classList.toggle('expanded');
+            if (toggle instanceof HTMLElement) {
+                if (toggle.dataset.initialized) return;
+                toggle.dataset.initialized = 'true';
+                toggle.addEventListener('click', () => {
+                    const subList = toggle.nextElementSibling;
+                    if (subList && subList.tagName === 'UL') {
+                        subList.classList.toggle('hidden');
+                        if (toggle.parentElement) {
+                            toggle.parentElement.classList.toggle('expanded');
+                        }
                     }
-                }
-            });
+                });
+            }
         });
     }
 
     document.addEventListener('astro:page-load', initializeTreeInteraction);
     document.addEventListener('astro:after-swap', initializeTreeInteraction);
+    
+    // También inicializar en carga inicial
+    initializeTreeInteraction();
 </script>
 
 <style is:global>
