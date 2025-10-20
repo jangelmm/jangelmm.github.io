@@ -61,32 +61,34 @@ const treeHtml = renderTree(directoryTree);
     <Fragment set:html={treeHtml.replace('class="sub-list hidden"', 'class="sub-list"')}/>
 </WidgetLayout>
 
+// Reemplaza tu sección <script> con esta
+
 <script>
-    // 1. Envolvemos toda nuestra lógica en una función reutilizable.
     function initializeTreeInteraction() {
         const folderToggles = document.querySelectorAll('#directory-tree .folder-toggle');
         
         folderToggles.forEach(toggle => {
-            // Prevenimos añadir el mismo evento múltiples veces
-            if (toggle.dataset.initialized) return;
-            toggle.dataset.initialized = 'true';
+            
+            const element = toggle as HTMLElement; 
 
-            toggle.addEventListener('click', () => {
-                const subList = toggle.nextElementSibling;
+            // Usamos 'element' en lugar de 'toggle' para las comprobaciones
+            if (element.dataset.initialized) return;
+            element.dataset.initialized = 'true';
+
+            element.addEventListener('click', () => {
+                const subList = element.nextElementSibling;
                 if (subList && subList.tagName === 'UL') {
                     subList.classList.toggle('hidden');
-                    if (toggle.parentElement) {
-                        toggle.parentElement.classList.toggle('expanded');
+                    
+                    if (element.parentElement) {
+                        element.parentElement.classList.toggle('expanded');
                     }
                 }
             });
         });
     }
 
-    // 2. Ejecutamos la función en la carga inicial de la página.
     document.addEventListener('astro:page-load', initializeTreeInteraction);
-    
-    // 3. Le pedimos a Astro que también ejecute nuestra función DESPUÉS de cada transición de página.
     document.addEventListener('astro:after-swap', initializeTreeInteraction);
 </script>
 
