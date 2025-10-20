@@ -1,55 +1,66 @@
 ---
 // src/components/widget/DirectoryTree.astro
 
-import { getCollection } from 'astro:content';
-import { url } from '../../utils/url-utils';
-import WidgetLayout from './WidgetLayout.astro';
+import { getCollection } from "astro:content";
+import { url } from "../../utils/url-utils";
+import WidgetLayout from "./WidgetLayout.astro";
 
-const allPosts = await getCollection('posts', ({ data }) => data.draft !== true);
+interface PostLeaf {
+	slug: string;
+	title: string;
+}
 
-// ✅ TIPADO AÑADIDO: Le decimos a TypeScript la "forma" de nuestro árbol
-const directoryTree: Record<string, any> = {};
+type DirectoryTree = {
+	[key: string]: DirectoryTree | PostLeaf;
+};
+
+const allPosts = await getCollection(
+	"posts",
+	({ data }) => data.draft !== true,
+);
+
+const directoryTree: DirectoryTree = {};
 
 allPosts.forEach((post) => {
-    const pathParts = post.id.split('/');
-    let currentLevel = directoryTree;
+	const pathParts = post.id.split("/");
+	let currentLevel: DirectoryTree = directoryTree;
 
-    for (let i = 0; i < pathParts.length - 1; i++) {
-        const part = pathParts[i];
-        if (!currentLevel[part]) {
-            currentLevel[part] = {};
-        }
-        currentLevel = currentLevel[part];
-    }
+	for (let i = 0; i < pathParts.length - 1; i++) {
+		const part = pathParts[i];
+		if (!currentLevel[part]) {
+			currentLevel[part] = {};
+		}
+		currentLevel = currentLevel[part] as DirectoryTree;
+	}
 
-    const fileName = pathParts[pathParts.length - 1];
-    currentLevel[fileName] = {
-        slug: post.slug,
-        title: post.data.title,
-    };
+	const fileName = pathParts[pathParts.length - 1];
+	currentLevel[fileName] = {
+		slug: post.slug,
+		title: post.data.title,
+	};
 });
 
-function renderTree(tree: Record<string, any>) {
-    const keys = Object.keys(tree);
-    if (keys.length === 0) return '';
+function renderTree(tree: DirectoryTree) {
+	const keys = Object.keys(tree);
+	if (keys.length === 0) return "";
 
-    let html = '<ul class="sub-list hidden">';
-    for (const key of keys) {
-        const node = tree[key];
-        if (node.slug) {
-            html += `<li class="file"><a href="${url(`/posts/${node.slug}/`)}">${node.title}</a></li>`;
-        } 
-        else {
-            const hasChildren = Object.keys(node).length > 0;
-            html += `<li class="folder"><span class="folder-toggle">${key}</span>`;
-            if (hasChildren) {
-                html += renderTree(node);
-            }
-            html += '</li>';
-        }
-    }
-    html += '</ul>';
-    return html;
+	let html = '<ul class="sub-list hidden">';
+	for (const key of keys) {
+		const node = tree[key];
+		// Comprobamos si es un 'PostLeaf' verificando la propiedad 'slug'
+		if ("slug" in node) {
+			html += `<li class="file"><a href="${url(`/posts/${node.slug}/`)}">${node.title}</a></li>`;
+		} else {
+			const hasChildren = Object.keys(node).length > 0;
+			html += `<li class="folder"><span class="folder-toggle">${key}</span>`;
+			if (hasChildren) {
+				html += renderTree(node);
+			}
+			html += "</li>";
+		}
+	}
+	html += "</ul>";
+	return html;
 }
 
 const treeHtml = renderTree(directoryTree);
@@ -66,7 +77,6 @@ const treeHtml = renderTree(directoryTree);
             const subList = toggle.nextElementSibling;
             if (subList && subList.tagName === 'UL') {
                 subList.classList.toggle('hidden');
-                
                 if (toggle.parentElement) {
                     toggle.parentElement.classList.toggle('expanded');
                 }
@@ -76,59 +86,5 @@ const treeHtml = renderTree(directoryTree);
 </script>
 
 <style is:global>
-    #directory-tree ul {
-        list-style: none;
-        padding-left: 1rem;
-        margin-top: 0.25rem;
-    }
-    #directory-tree .sub-list.hidden {
-        display: none;
-    }
-    #directory-tree li {
-        margin-bottom: 0.25rem;
-    }
-
-    /* === Estilos para las CARPETAS === */
-    #directory-tree .folder-toggle {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        user-select: none;
-        font-weight: 500;
-        /* USAR VARIABLES EXISTENTES: */
-        color: var(--btn-content);
-        transition: color 0.2s, filter 0.2s;
-    }
-    #directory-tree .folder-toggle:hover {
-        color: var(--primary);
-        filter: brightness(1.2);
-    }
-    /* Icono de carpeta CERRADA */
-    #directory-tree .folder > .folder-toggle::before {
-        content: '📁';
-        margin-right: 0.5rem;
-    }
-    /* Icono de carpeta ABIERTA (cuando está expandida) */
-    #directory-tree .folder.expanded > .folder-toggle::before {
-        content: '📂';
-    }
-    
-    /* === Estilos para los ARCHIVOS === */
-    #directory-tree .file a {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        /* USAR VARIABLES EXISTENTES: */
-        color: var(--btn-content);
-        font-size: 0.9em;
-        transition: color 0.2s;
-    }
-    #directory-tree .file a:hover {
-        color: var(--primary);
-    }
-    #directory-tree .file a::before {
-        content: '📄';
-        margin-right: 0.5rem;
-        opacity: 0.8;
-    }
+    /* ... Tus estilos que ya funcionan ... */
 </style>
